@@ -22,12 +22,15 @@ namespace GoodEating
 
         private void profileButton_Click(object sender, EventArgs e)
         {
-          
+            profileForm profile = new profileForm(_userId);
+            profile.ShowDialog();
         }
 
         private void mainFormMb_Load(object sender, EventArgs e)
         {
-            Console.WriteLine(_userId);
+
+            dataGridViewProductDay.AutoGenerateColumns = true;
+            dataGridViewProductDay.BorderStyle = BorderStyle.Fixed3D;
             CalculateAndDisplayCalorieNorm(_userId, AllNormaCount);
 
         }
@@ -40,10 +43,10 @@ namespace GoodEating
                 connection.Open();
 
                 // SQL-запрос для получения веса и роста пользователя по id_user
-                string query = @"
-            SELECT weight, height
-            FROM normaTable
-            WHERE id_user = @userId";
+                  string query = @"
+                  SELECT weight, height
+                  FROM normaTable
+                  WHERE id_user = @userId";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -66,7 +69,7 @@ namespace GoodEating
                         else
                         {
                             calorieLabel.Invoke((MethodInvoker)(() => calorieLabel.Text = "Пользователь не найдет"));
-                        }
+                        }   
                     }
                 }
             }
