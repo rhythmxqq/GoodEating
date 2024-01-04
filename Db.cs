@@ -15,6 +15,7 @@ namespace GoodEating
             if (connection.State == System.Data.ConnectionState.Closed) 
                 connection.Open();
         }
+
         public void closedConnection()
         {
             if (connection.State == System.Data.ConnectionState.Open)

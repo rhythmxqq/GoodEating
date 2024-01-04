@@ -182,14 +182,24 @@
             this.buttonEnterReg.TabIndex = 16;
             this.buttonEnterReg.Text = "Зарегестрироваться";
             this.buttonEnterReg.UseVisualStyleBackColor = true;
+            this.buttonEnterReg.Click += new System.EventHandler(this.buttonEnterReg_Click);
             // 
             // allergiaComboBox1
             // 
             this.allergiaComboBox1.FormattingEnabled = true;
+            this.allergiaComboBox1.Items.AddRange(new object[] {
+            "Мандарины",
+            "Апельсины",
+            "Грейпфрут",
+            "Грецкий орех",
+            "Свинина",
+            "Ваниль",
+            "Нет"});
             this.allergiaComboBox1.Location = new System.Drawing.Point(162, 63);
             this.allergiaComboBox1.Name = "allergiaComboBox1";
             this.allergiaComboBox1.Size = new System.Drawing.Size(105, 21);
             this.allergiaComboBox1.TabIndex = 17;
+            this.allergiaComboBox1.Text = "Ваша аллергия";
             // 
             // Form2
             // 
@@ -215,6 +225,7 @@
             this.Controls.Add(this.loginTextBox);
             this.Name = "Form2";
             this.Text = "Form2";
+            this.Load += new System.EventHandler(this.Form2_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
