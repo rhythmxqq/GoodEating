@@ -14,12 +14,13 @@ namespace GoodEating
 {
     public partial class Form1 : Form
     {
+        private int userId = 0;
         public Form1()
         {
             InitializeComponent();
         }
-        
-        //log
+
+        //loging
         private void button1_Click(object sender, EventArgs e)
         {
             String loginUser = loginTextBox.Text;
@@ -36,17 +37,29 @@ namespace GoodEating
             adapter.Fill(table);
 
             if (table.Rows.Count > 0)
-                MessageBox.Show("нормасик все");
+                using (SqlConnection connection = db.getConnection())
+                {
+                    db.openConnection();
+                    String quary = "SELECT id_user FROM userTable WHERE login = @login";
+                    SqlCommand command1 = new SqlCommand(quary, connection);
+                    command1.Parameters.AddWithValue("@login", loginUser);
+
+                        int userId = (int)command1.ExecuteScalar();
+           
+                    mainFormMb formMb = new mainFormMb(userId);
+                    formMb.ShowDialog();
+                }
             else
                 MessageBox.Show("хуйня, давай по новой");
 
         }
 
-        //reg
+        //registration
         private void button1_Click_1(object sender, EventArgs e)
-        {        
-            Form2 form2  = new Form2();
+        {
+            Form2 form2 = new Form2();
             form2.ShowDialog();
         }
     }
 }
+

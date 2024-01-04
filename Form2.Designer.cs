@@ -41,8 +41,6 @@
             this.weightTextBox = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.hightTextBox = new System.Windows.Forms.TextBox();
-            this.manCheck = new System.Windows.Forms.CheckBox();
-            this.womanCheck = new System.Windows.Forms.CheckBox();
             this.buttonEnterReg = new System.Windows.Forms.Button();
             this.allergiaComboBox1 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
@@ -154,26 +152,6 @@
             this.hightTextBox.Size = new System.Drawing.Size(100, 20);
             this.hightTextBox.TabIndex = 10;
             // 
-            // manCheck
-            // 
-            this.manCheck.AutoSize = true;
-            this.manCheck.Location = new System.Drawing.Point(233, 152);
-            this.manCheck.Name = "manCheck";
-            this.manCheck.Size = new System.Drawing.Size(50, 17);
-            this.manCheck.TabIndex = 14;
-            this.manCheck.Text = "муж.";
-            this.manCheck.UseVisualStyleBackColor = true;
-            // 
-            // womanCheck
-            // 
-            this.womanCheck.AutoSize = true;
-            this.womanCheck.Location = new System.Drawing.Point(289, 152);
-            this.womanCheck.Name = "womanCheck";
-            this.womanCheck.Size = new System.Drawing.Size(49, 17);
-            this.womanCheck.TabIndex = 15;
-            this.womanCheck.Text = "жен.";
-            this.womanCheck.UseVisualStyleBackColor = true;
-            // 
             // buttonEnterReg
             // 
             this.buttonEnterReg.Location = new System.Drawing.Point(140, 207);
@@ -208,8 +186,6 @@
             this.ClientSize = new System.Drawing.Size(424, 242);
             this.Controls.Add(this.allergiaComboBox1);
             this.Controls.Add(this.buttonEnterReg);
-            this.Controls.Add(this.womanCheck);
-            this.Controls.Add(this.manCheck);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.weightTextBox);
             this.Controls.Add(this.label7);
@@ -246,8 +222,6 @@
         private System.Windows.Forms.TextBox weightTextBox;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox hightTextBox;
-        private System.Windows.Forms.CheckBox manCheck;
-        private System.Windows.Forms.CheckBox womanCheck;
         private System.Windows.Forms.Button buttonEnterReg;
         private System.Windows.Forms.ComboBox allergiaComboBox1;
     }

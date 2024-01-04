@@ -11,6 +11,7 @@ namespace GoodEating
      class Db
     {
         SqlConnection connection = new SqlConnection("Server =REVISION-PC\\SQLEXPRESS; Database=GoodEatingBase;Trusted_Connection=True;");
+
         public void openConnection() {
             if (connection.State == System.Data.ConnectionState.Closed) 
                 connection.Open();
