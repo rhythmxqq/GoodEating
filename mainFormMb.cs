@@ -16,7 +16,7 @@ namespace GoodEating
         private int _userId = 0;
         public mainFormMb(int userId)
         {
-           _userId = userId;
+            _userId = userId;
             InitializeComponent();
         }
 
@@ -31,7 +31,15 @@ namespace GoodEating
 
             dataGridViewProductDay.AutoGenerateColumns = true;
             dataGridViewProductDay.BorderStyle = BorderStyle.Fixed3D;
+
             CalculateAndDisplayCalorieNorm(_userId, AllNormaCount);
+            dataGridViewProductDay.AutoGenerateColumns = false;
+            dataGridViewProductDay.Columns.Add("Завтрак", "Завтрак");
+            dataGridViewProductDay.Columns.Add("Обед", "Обед");
+            dataGridViewProductDay.Columns.Add("Полдник", "Полдник");
+            dataGridViewProductDay.Columns.Add("Ужин", "Ужин");
+            LoadProducts();
+
 
         }
         void CalculateAndDisplayCalorieNorm(int userId, Label calorieLabel)
@@ -43,7 +51,7 @@ namespace GoodEating
                 connection.Open();
 
                 // SQL-запрос для получения веса и роста пользователя по id_user
-                  string query = @"
+                string query = @"
                   SELECT weight, height
                   FROM normaTable
                   WHERE id_user = @userId";
@@ -69,7 +77,7 @@ namespace GoodEating
                         else
                         {
                             calorieLabel.Invoke((MethodInvoker)(() => calorieLabel.Text = "Пользователь не найдет"));
-                        }   
+                        }
                     }
                 }
             }
@@ -86,5 +94,71 @@ namespace GoodEating
 
             return calorieNormForWeightLoss;
         }
+
+        private void LoadProducts()
+        {
+            // Получаем максимальное количество калорий пользователя из Label
+            int maxCalories = int.Parse(AllNormaCount.Text);
+
+            // Запрос для получения продуктов
+            string query = @"
+        SELECT id_product, name_product, compound, proteins, fats, carbohydrates, callories_content, grames, id_norma
+        FROM productTable
+        WHERE id_norma IN (
+            SELECT id_norma
+            FROM normaTable
+            WHERE id_user = @userId
+        )
+        AND callories_content <= @maxCalories
+        ORDER BY ABS(callories_content - @maxCalories)";
+
+            // Очищаем dataGridViewProductDay перед добавлением новых данных
+            dataGridViewProductDay.Rows.Clear();
+            Db db = new Db();   
+            using (SqlConnection connection = db.getConnection())
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@userId", _userId);
+                    command.Parameters.AddWithValue("@maxCalories", maxCalories);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        double caloriesRemaining = maxCalories;
+
+                        while (reader.Read())
+                        {
+                            string nameProduct = reader.GetString(reader.GetOrdinal("name_product"));
+                            double caloriesContent = reader.GetDouble(reader.GetOrdinal("callories_content"));
+
+                            // Проверяем, в какой прием пищи можно добавить продукт
+                            if (caloriesRemaining >= caloriesContent)
+                            {
+                                AddProductToMeal(nameProduct, dataGridViewProductDay);
+                                caloriesRemaining -= caloriesContent;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void AddProductToMeal(string nameProduct, DataGridView dataGridView)
+        {
+            // Добавляем название продукта в первую доступную ячейку в dataGridViewProductDay
+            foreach (DataGridViewRow row in dataGridView.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    if (cell.Value == null)
+                    {
+                        cell.Value = nameProduct;
+                        return;
+                    }
+                }
+            }
+        }
+
     }
 }
