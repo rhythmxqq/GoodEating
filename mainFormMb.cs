@@ -38,7 +38,8 @@ namespace GoodEating
             dataGridViewProductDay.Columns.Add("Обед", "Обед");
             dataGridViewProductDay.Columns.Add("Полдник", "Полдник");
             dataGridViewProductDay.Columns.Add("Ужин", "Ужин");
-            LoadProducts();
+            dataGridViewProductDay.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            LoadProductsAndDistribute();
 
 
         }
@@ -95,70 +96,139 @@ namespace GoodEating
             return calorieNormForWeightLoss;
         }
 
-        private void LoadProducts()
+        private void LoadProductsAndDistribute()
         {
-            // Получаем максимальное количество калорий пользователя из Label
-            int maxCalories = int.Parse(AllNormaCount.Text);
+            float totalCalories = float.Parse(AllNormaCount.Text); // Получение нормы калорий из Label
 
-            // Запрос для получения продуктов
-            string query = @"
-        SELECT id_product, name_product, compound, proteins, fats, carbohydrates, callories_content, grames, id_norma
-        FROM productTable
-        WHERE id_norma IN (
-            SELECT id_norma
-            FROM normaTable
-            WHERE id_user = @userId
-        )
-        AND callories_content <= @maxCalories
-        ORDER BY ABS(callories_content - @maxCalories)";
+            // Получение продуктов из БД
+            List<(string name, float calories)> products = GetProductsForUser(_userId);
 
-            // Очищаем dataGridViewProductDay перед добавлением новых данных
-            dataGridViewProductDay.Rows.Clear();
-            Db db = new Db();   
+            // Распределение продуктов по приемам пищи
+            var mealProducts = DistributeProducts(products, totalCalories);
+
+            // Отображение продуктов в dataGridViewProductDay
+            DisplayProductsInDataGridView(mealProducts);
+        }
+
+        private List<(string name, float calories)> GetProductsForUser(int userId)
+        {
+            Db db = new Db();
+            List<(string name, float calories)> products = new List<(string name, float calories)>();
+
             using (SqlConnection connection = db.getConnection())
             {
                 connection.Open();
+                string query = @"
+            SELECT p.name_product, p.callories_content
+            FROM productTable p
+            JOIN normaTable n ON p.id_norma = n.id_norma
+            WHERE n.id_user = @userId";
+
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", _userId);
-                    command.Parameters.AddWithValue("@maxCalories", maxCalories);
+                    command.Parameters.AddWithValue("@userId", userId);
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        double caloriesRemaining = maxCalories;
-
                         while (reader.Read())
                         {
-                            string nameProduct = reader.GetString(reader.GetOrdinal("name_product"));
-                            double caloriesContent = reader.GetDouble(reader.GetOrdinal("callories_content"));
+                            string productName = reader.GetString(0);
+                            float calories = 0f;
 
-                            // Проверяем, в какой прием пищи можно добавить продукт
-                            if (caloriesRemaining >= caloriesContent)
+                            if (!reader.IsDBNull(1))
                             {
-                                AddProductToMeal(nameProduct, dataGridViewProductDay);
-                                caloriesRemaining -= caloriesContent;
+                                calories = (float)reader.GetDouble(1); // Преобразование double в float
                             }
+
+                            products.Add((productName, calories));
                         }
                     }
                 }
             }
+
+            return products;
         }
 
-        private void AddProductToMeal(string nameProduct, DataGridView dataGridView)
+        private Dictionary<string, List<(string name, float calories)>> DistributeProducts(List<(string name, float calories)> products, float totalCalories)
         {
-            // Добавляем название продукта в первую доступную ячейку в dataGridViewProductDay
-            foreach (DataGridViewRow row in dataGridView.Rows)
+            float breakfastCalories = totalCalories * 0.25f;
+            float lunchCalories = totalCalories * 0.35f;
+            float snackCalories = totalCalories * 0.15f;
+            float dinnerCalories = totalCalories * 0.25f;
+
+            var mealProducts = new Dictionary<string, List<(string name, float calories)>> {
+        {"Завтрак", new List<(string name, float calories)>()},
+        {"Обед", new List<(string name, float calories)>()},
+        {"Полдник", new List<(string name, float calories)>()},
+        {"Ужин", new List<(string name, float calories)>()}
+    };
+
+            foreach (var product in products)
             {
-                foreach (DataGridViewCell cell in row.Cells)
+                if (breakfastCalories >= product.calories)
                 {
-                    if (cell.Value == null)
-                    {
-                        cell.Value = nameProduct;
-                        return;
-                    }
+                    mealProducts["Завтрак"].Add(product);
+                    breakfastCalories -= product.calories;
+                }
+                else if (lunchCalories >= product.calories)
+                {
+                    mealProducts["Обед"].Add(product);
+                    lunchCalories -= product.calories;
+                }
+                else if (snackCalories >= product.calories)
+                {
+                    mealProducts["Полдник"].Add(product);
+                    snackCalories -= product.calories;
+                }
+                else if (dinnerCalories >= product.calories)
+                {
+                    mealProducts["Ужин"].Add(product);
+                    dinnerCalories -= product.calories;
                 }
             }
+
+            return mealProducts;
         }
 
+        private void DisplayProductsInDataGridView(Dictionary<string, List<(string name, float calories)>> mealProducts)
+        {
+            // Очистите текущие данные в dataGridView
+            dataGridViewProductDay.Rows.Clear();
+
+            // Найти максимальное количество строк, которое потребуется
+            int maxRows = 0;
+            foreach (var meal in mealProducts)
+            {
+                maxRows = Math.Max(maxRows, meal.Value.Count);
+            }
+
+            // Добавить строки
+            for (int i = 0; i < maxRows; i++)
+            {
+                var row = new DataGridViewRow();
+
+                foreach (var meal in mealProducts)
+                {
+                    if (meal.Value.Count > i)
+                    {
+                        // Добавить название продукта и калории в соответствующий столбец
+                        row.Cells.Add(new DataGridViewTextBoxCell { Value = meal.Value[i].name + " (" + meal.Value[i].calories + " ккал)" });
+                    }
+                    else
+                    {
+                        // Добавить пустую ячейку, если в этой категории больше нет продуктов
+                        row.Cells.Add(new DataGridViewTextBoxCell { Value = "" });
+                    }
+                }
+                dataGridViewProductDay.Rows.Add(row);
+            }
+            if (dataGridViewProductDay.ColumnCount == 0)
+            {
+                dataGridViewProductDay.Columns.Add("breakfastColumn", "Завтрак");
+                dataGridViewProductDay.Columns.Add("lunchColumn", "Обед");
+                dataGridViewProductDay.Columns.Add("snackColumn", "Полдник");
+                dataGridViewProductDay.Columns.Add("dinnerColumn", "Ужин");
+            }
+        }
     }
 }

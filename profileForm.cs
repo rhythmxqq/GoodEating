@@ -47,7 +47,8 @@ namespace GoodEating
 
         private void updatePasswordButton_Click(object sender, EventArgs e)
         {
-
+            UpdatePasswordForm pasForm = new UpdatePasswordForm(_userId);
+            pasForm.ShowDialog();
         }
     }
 }
