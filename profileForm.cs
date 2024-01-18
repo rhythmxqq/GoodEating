@@ -28,7 +28,6 @@ namespace GoodEating
                 String quary = "SELECT login FROM userTable WHERE id_user = @id";
                 SqlCommand command1 = new SqlCommand(quary, connection);
                 command1.Parameters.AddWithValue("@id", _userId);
-
                 String login = command1.ExecuteScalar().ToString();
                 
                 loginLabel.Text = login;
@@ -36,6 +35,22 @@ namespace GoodEating
         }
         private void saveButton_Click(object sender, EventArgs e)
         {
+            string weight = weightTextBoxUpdate.Text;
+            string height = heightTextBoxUpdate.Text;
+            string gender = comboBoxManOrWoman.Text;
+            Db db = new Db();
+            using (SqlConnection connection = db.getConnection())
+            {
+                db.openConnection();
+                string quary = "UPDATE normaTable SET weight=@weight, height=@height, gender=@gender WHERE id_user=@id_user";
+                SqlCommand command = new SqlCommand(quary, connection);
+                command.Parameters.AddWithValue("@weight", weight);
+                command.Parameters.AddWithValue("@height", height);
+                command.Parameters.AddWithValue("@gender", gender);
+                command.Parameters.AddWithValue("@id_user", _userId);
+
+                command.ExecuteNonQuery();
+            }
             mainFormMb formMb = new mainFormMb(_userId);
             formMb.ShowDialog();
         }
