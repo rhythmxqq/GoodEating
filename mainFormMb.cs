@@ -101,28 +101,34 @@ namespace GoodEating
             float totalCalories = float.Parse(AllNormaCount.Text); // Получение нормы калорий из Label
 
             // Получение продуктов из БД
-            List<(string name, float calories, float protein, float fats, float carbs)> products = GetProductsForUser(_userId);
+            List<(int productId, string name, float calories, float protein, float fats, float carbs)> products = GetProductsForUser(_userId);
 
             // Распределение продуктов по приемам пищи
             var mealProducts = DistributeProducts(products, totalCalories);
 
             // Отображение продуктов в dataGridViewProductDay
             DisplayProductsInDataGridView(mealProducts);
+
+            // Распределение продуктов по приемам пищи
+            var meaInfProducts = DistributeProducts(products, totalCalories);
+
+            // Запись данных о приемах пищи в БД
+            InsertEatingInfoToDb(mealProducts);
         }
 
-        private List<(string name, float calories, float protein, float fats, float carbs)> GetProductsForUser(int userId)
+        private List<(int productId, string name, float calories, float protein, float fats, float carbs)> GetProductsForUser(int userId)
         {
             Db db = new Db();
-            List<(string name, float calories, float protein, float fats, float carbs)> products = new List<(string name, float calories, float protein, float fats, float carbs)>();
+            List<(int productId, string name, float calories, float protein, float fats, float carbs)> products = new List<(int productId, string name, float calories, float protein, float fats, float carbs)>();
 
             using (SqlConnection connection = db.getConnection())
             {
                 connection.Open();
                 string query = @"
-        SELECT p.name_product, p.callories_content, p.proteins, p.fats, p.carbohydrates
-        FROM productTable p
-        JOIN normaTable n ON p.id_norma = n.id_norma
-        WHERE n.id_user = @userId";
+            SELECT p.id_product, p.name_product, p.callories_content, p.proteins, p.fats, p.carbohydrates
+            FROM productTable p
+            JOIN normaTable n ON p.id_norma = n.id_norma
+            WHERE n.id_user = @userId";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -132,19 +138,14 @@ namespace GoodEating
                     {
                         while (reader.Read())
                         {
-                            string productName = reader.GetString(0);
-                            float calories = 0f;
+                            int productId = reader.GetInt32(reader.GetOrdinal("id_product"));
+                            string productName = reader.GetString(reader.GetOrdinal("name_product"));
+                            float calories = reader["callories_content"] != DBNull.Value ? Convert.ToSingle(reader["callories_content"]) : 0f;
+                            float protein = reader["proteins"] != DBNull.Value ? Convert.ToSingle(reader["proteins"]) : 0f;
+                            float fats = reader["fats"] != DBNull.Value ? Convert.ToSingle(reader["fats"]) : 0f;
+                            float carbs = reader["carbohydrates"] != DBNull.Value ? Convert.ToSingle(reader["carbohydrates"]) : 0f;
 
-                            if (!reader.IsDBNull(1))
-                            {
-                                calories = (float)reader.GetDouble(1); // Преобразование double в float
-                            }
-
-                            float protein = (float)reader.GetDouble(2);
-                            float fats = (float)reader.GetDouble(3);
-                            float carbs = (float)reader.GetDouble(4);
-
-                            products.Add((productName, calories, protein, fats, carbs));
+                            products.Add((productId, productName, calories, protein, fats, carbs));
                         }
                     }
                 }
@@ -153,20 +154,50 @@ namespace GoodEating
             return products;
         }
 
-       
+        private void InsertEatingInfoToDb(Dictionary<string, List<(int productId, string name, float calories, float protein, float fats, float carbs)>> mealProducts)
+        {
+            Db db = new Db();
 
-   private Dictionary<string, List<(string name, float calories, float protein, float fats, float carbs)>> DistributeProducts(List<(string name, float calories, float protein, float fats, float carbs)> products, float totalCalories)
+            using (SqlConnection connection = db.getConnection())
+            {
+                connection.Open();
+
+                foreach (var meal in mealProducts)
+                {
+                    foreach (var product in meal.Value)
+                    {
+                        using (SqlCommand command = new SqlCommand("INSERT INTO modeEatingTable (id_user, id_norma, callories, carbohydrates, name, proteins, fats, date, id_products) VALUES (@userId, @normaId, @calories, @carbohydrates, @name, @proteins, @fats, @date, @productId)", connection))
+                        {
+                            command.Parameters.AddWithValue("@userId", _userId);
+                            command.Parameters.AddWithValue("@normaId", _userId);
+                            command.Parameters.AddWithValue("@calories", product.calories);
+                            command.Parameters.AddWithValue("@carbohydrates", product.carbs);
+                            command.Parameters.AddWithValue("@name", product.name);
+                            command.Parameters.AddWithValue("@proteins", product.protein);
+                            command.Parameters.AddWithValue("@fats", product.fats);
+                            command.Parameters.AddWithValue("@date", DateTime.Now);
+                            command.Parameters.AddWithValue("@productId", product.productId);
+
+                            command.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
+        }
+
+
+        private Dictionary<string, List<(int productId, string name, float calories, float protein, float fats, float carbs)>> DistributeProducts(List<(int productId, string name, float calories, float protein, float fats, float carbs)> products, float totalCalories)
 {
     float breakfastCalories = totalCalories * 0.25f;
     float lunchCalories = totalCalories * 0.35f;
     float snackCalories = totalCalories * 0.15f;
     float dinnerCalories = totalCalories * 0.25f;
 
-    var mealProducts = new Dictionary<string, List<(string name, float calories, float protein, float fats, float carbs)>> {
-        {"Завтрак", new List<(string name, float calories, float protein, float fats, float carbs)>()},
-        {"Обед", new List<(string name, float calories, float protein, float fats, float carbs)>()},
-        {"Полдник", new List<(string name, float calories, float protein, float fats, float carbs)>()},
-        {"Ужин", new List<(string name, float calories, float protein, float fats, float carbs)>()}
+    var mealProducts = new Dictionary<string, List<(int productId, string name, float calories, float protein, float fats, float carbs)>> {
+        {"Завтрак", new List<(int productId, string name, float calories, float protein, float fats, float carbs)>()},
+        {"Обед", new List<(int productId, string name, float calories, float protein, float fats, float carbs)>()},
+        {"Полдник", new List<(int productId, string name, float calories, float protein, float fats, float carbs)>()},
+        {"Ужин", new List<(int productId, string name, float calories, float protein, float fats, float carbs)>()}
     };
 
     foreach (var product in products)
@@ -199,7 +230,7 @@ namespace GoodEating
    }
 
 
-        private void DisplayProductsInDataGridView(Dictionary<string, List<(string name, float calories, float protein, float fats, float carbs)>> mealProducts)
+        private void DisplayProductsInDataGridView(Dictionary<string, List<(int productId, string name, float calories, float protein, float fats, float carbs)>> mealProducts)
         {
             // Очистка текущих данных в DataGridView
             dataGridViewProductDay.Rows.Clear();

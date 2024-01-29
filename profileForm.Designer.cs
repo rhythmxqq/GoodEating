@@ -39,6 +39,7 @@
             this.comboBoxManOrWoman = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.updatePasswordButton = new System.Windows.Forms.Button();
+            this.historyButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -143,11 +144,22 @@
             this.updatePasswordButton.UseVisualStyleBackColor = true;
             this.updatePasswordButton.Click += new System.EventHandler(this.updatePasswordButton_Click);
             // 
+            // historyButton
+            // 
+            this.historyButton.Location = new System.Drawing.Point(12, 12);
+            this.historyButton.Name = "historyButton";
+            this.historyButton.Size = new System.Drawing.Size(71, 38);
+            this.historyButton.TabIndex = 13;
+            this.historyButton.Text = "История продуктов";
+            this.historyButton.UseVisualStyleBackColor = true;
+            this.historyButton.Click += new System.EventHandler(this.historyButton_Click);
+            // 
             // profileForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(266, 353);
+            this.Controls.Add(this.historyButton);
             this.Controls.Add(this.updatePasswordButton);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.comboBoxManOrWoman);
@@ -181,5 +193,6 @@
         private System.Windows.Forms.ComboBox comboBoxManOrWoman;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button updatePasswordButton;
+        private System.Windows.Forms.Button historyButton;
     }
 }

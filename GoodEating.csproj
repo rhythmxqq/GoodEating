@@ -51,6 +51,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Db.cs" />
+    <Compile Include="DietHistoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DietHistoryForm.Designer.cs">
+      <DependentUpon>DietHistoryForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,6 +89,9 @@
     <Compile Include="UpdatePasswordForm.Designer.cs">
       <DependentUpon>UpdatePasswordForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="DietHistoryForm.resx">
+      <DependentUpon>DietHistoryForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

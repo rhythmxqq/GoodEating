@@ -65,5 +65,11 @@ namespace GoodEating
             UpdatePasswordForm pasForm = new UpdatePasswordForm(_userId);
             pasForm.ShowDialog();
         }
+
+        private void historyButton_Click(object sender, EventArgs e)
+        {
+            DietHistoryForm form3 = new DietHistoryForm(_userId);
+            form3.ShowDialog();
+        }
     }
 }
