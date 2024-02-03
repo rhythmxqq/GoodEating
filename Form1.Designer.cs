@@ -34,6 +34,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.regButton = new System.Windows.Forms.Button();
+            this.testbutton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // enterButton
@@ -93,11 +94,22 @@
             this.regButton.UseVisualStyleBackColor = true;
             this.regButton.Click += new System.EventHandler(this.button1_Click_1);
             // 
+            // testbutton
+            // 
+            this.testbutton.Location = new System.Drawing.Point(99, 325);
+            this.testbutton.Name = "testbutton";
+            this.testbutton.Size = new System.Drawing.Size(75, 23);
+            this.testbutton.TabIndex = 6;
+            this.testbutton.Text = "TESTform";
+            this.testbutton.UseVisualStyleBackColor = true;
+            this.testbutton.Click += new System.EventHandler(this.button1_Click_2);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(298, 426);
+            this.Controls.Add(this.testbutton);
             this.Controls.Add(this.regButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -119,6 +131,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button regButton;
+        private System.Windows.Forms.Button testbutton;
     }
 }
 

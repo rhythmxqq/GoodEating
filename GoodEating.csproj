@@ -50,6 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="coachFormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="coachFormMain.Designer.cs">
+      <DependentUpon>coachFormMain.cs</DependentUpon>
+    </Compile>
     <Compile Include="Db.cs" />
     <Compile Include="DietHistoryForm.cs">
       <SubType>Form</SubType>
@@ -89,6 +95,9 @@
     <Compile Include="UpdatePasswordForm.Designer.cs">
       <DependentUpon>UpdatePasswordForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="coachFormMain.resx">
+      <DependentUpon>coachFormMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DietHistoryForm.resx">
       <DependentUpon>DietHistoryForm.cs</DependentUpon>
     </EmbeddedResource>

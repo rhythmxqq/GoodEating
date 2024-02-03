@@ -60,6 +60,12 @@ namespace GoodEating
             Form2 form2 = new Form2();
             form2.ShowDialog();
         }
+
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            coachFormMain formC = new coachFormMain(userId);
+            formC.ShowDialog();
+        }
     }
 }
 
