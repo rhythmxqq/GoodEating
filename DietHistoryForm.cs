@@ -88,5 +88,15 @@ namespace GoodEating
         {
             dateTimePickerInfo.Value = dateTimePickerInfo.Value.AddDays(1);
         }
+
+        private void NextButton_MouseMove(object sender, MouseEventArgs e)
+        {
+            this.Cursor = new Cursor("C:\\Users\\gorilla\\Desktop\\NikitaNOT DELETE\\visualStudioNikita\\GoodEating\\Resources\\hand_curso.ico");
+        }
+
+        private void PreviousButton_MouseMove(object sender, MouseEventArgs e)
+        {
+            this.Cursor = new Cursor("C:\\Users\\gorilla\\Desktop\\NikitaNOT DELETE\\visualStudioNikita\\GoodEating\\Resources\\hand_curso.ico");
+        }
     }
 }

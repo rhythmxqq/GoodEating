@@ -47,30 +47,38 @@
             // 
             // loginTextBox
             // 
+            this.loginTextBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.loginTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.loginTextBox.Location = new System.Drawing.Point(27, 47);
             this.loginTextBox.Name = "loginTextBox";
-            this.loginTextBox.Size = new System.Drawing.Size(100, 20);
+            this.loginTextBox.Size = new System.Drawing.Size(100, 13);
             this.loginTextBox.TabIndex = 0;
             // 
             // passwordtextBox
             // 
+            this.passwordtextBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.passwordtextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.passwordtextBox.Location = new System.Drawing.Point(27, 97);
             this.passwordtextBox.Name = "passwordtextBox";
             this.passwordtextBox.PasswordChar = '*';
-            this.passwordtextBox.Size = new System.Drawing.Size(100, 20);
+            this.passwordtextBox.Size = new System.Drawing.Size(100, 13);
             this.passwordtextBox.TabIndex = 1;
             // 
             // passwordCheckTextBox
             // 
+            this.passwordCheckTextBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.passwordCheckTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.passwordCheckTextBox.Location = new System.Drawing.Point(27, 135);
             this.passwordCheckTextBox.Name = "passwordCheckTextBox";
             this.passwordCheckTextBox.PasswordChar = '*';
-            this.passwordCheckTextBox.Size = new System.Drawing.Size(100, 20);
+            this.passwordCheckTextBox.Size = new System.Drawing.Size(100, 13);
             this.passwordCheckTextBox.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(24, 31);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(38, 13);
@@ -80,6 +88,8 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(24, 81);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(45, 13);
@@ -89,6 +99,8 @@
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(24, 119);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 13);
@@ -98,7 +110,9 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(164, 47);
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(159, 47);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(55, 13);
             this.label4.TabIndex = 7;
@@ -107,7 +121,9 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(164, 96);
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Location = new System.Drawing.Point(159, 96);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(29, 13);
             this.label5.TabIndex = 9;
@@ -115,14 +131,18 @@
             // 
             // nameTextBox
             // 
+            this.nameTextBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.nameTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.nameTextBox.Location = new System.Drawing.Point(162, 112);
             this.nameTextBox.Name = "nameTextBox";
-            this.nameTextBox.Size = new System.Drawing.Size(105, 20);
+            this.nameTextBox.Size = new System.Drawing.Size(105, 13);
             this.nameTextBox.TabIndex = 8;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(295, 96);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(26, 13);
@@ -131,14 +151,18 @@
             // 
             // weightTextBox
             // 
+            this.weightTextBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.weightTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.weightTextBox.Location = new System.Drawing.Point(298, 112);
             this.weightTextBox.Name = "weightTextBox";
-            this.weightTextBox.Size = new System.Drawing.Size(100, 20);
+            this.weightTextBox.Size = new System.Drawing.Size(100, 13);
             this.weightTextBox.TabIndex = 12;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.ForeColor = System.Drawing.Color.White;
             this.label7.Location = new System.Drawing.Point(295, 47);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(31, 13);
@@ -147,23 +171,31 @@
             // 
             // hightTextBox
             // 
+            this.hightTextBox.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.hightTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.hightTextBox.Location = new System.Drawing.Point(298, 63);
             this.hightTextBox.Name = "hightTextBox";
-            this.hightTextBox.Size = new System.Drawing.Size(100, 20);
+            this.hightTextBox.Size = new System.Drawing.Size(100, 13);
             this.hightTextBox.TabIndex = 10;
             // 
             // buttonEnterReg
             // 
+            this.buttonEnterReg.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.buttonEnterReg.FlatAppearance.BorderSize = 0;
+            this.buttonEnterReg.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonEnterReg.Location = new System.Drawing.Point(140, 207);
             this.buttonEnterReg.Name = "buttonEnterReg";
             this.buttonEnterReg.Size = new System.Drawing.Size(127, 23);
             this.buttonEnterReg.TabIndex = 16;
             this.buttonEnterReg.Text = "Зарегестрироваться";
-            this.buttonEnterReg.UseVisualStyleBackColor = true;
+            this.buttonEnterReg.UseVisualStyleBackColor = false;
             this.buttonEnterReg.Click += new System.EventHandler(this.buttonEnterReg_Click);
+            this.buttonEnterReg.MouseMove += new System.Windows.Forms.MouseEventHandler(this.buttonEnterReg_MouseMove);
             // 
             // allergiaComboBox1
             // 
+            this.allergiaComboBox1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.allergiaComboBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.allergiaComboBox1.FormattingEnabled = true;
             this.allergiaComboBox1.Items.AddRange(new object[] {
             "Мандарины",
@@ -183,6 +215,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::GoodEating.Properties.Resources.Screenshot_92;
             this.ClientSize = new System.Drawing.Size(424, 242);
             this.Controls.Add(this.allergiaComboBox1);
             this.Controls.Add(this.buttonEnterReg);
@@ -202,6 +235,7 @@
             this.Name = "Form2";
             this.Text = "Form2";
             this.Load += new System.EventHandler(this.Form2_Load);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form2_MouseMove);
             this.ResumeLayout(false);
             this.PerformLayout();
 

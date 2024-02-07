@@ -61,10 +61,19 @@ namespace GoodEating
             form2.ShowDialog();
         }
 
-        private void button1_Click_2(object sender, EventArgs e)
+        private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            coachFormMain formC = new coachFormMain(userId);
-            formC.ShowDialog();
+            this.Cursor = new Cursor("C:\\Users\\gorilla\\Desktop\\NikitaNOT DELETE\\visualStudioNikita\\GoodEating\\Resources\\busybutclickable_100191.ico");
+        }
+
+        private void enterButton_MouseMove(object sender, MouseEventArgs e)
+        {
+            this.Cursor = new Cursor("C:\\Users\\gorilla\\Desktop\\NikitaNOT DELETE\\visualStudioNikita\\GoodEating\\Resources\\hand_curso.ico");
+        }
+
+        private void regButton_MouseMove(object sender, MouseEventArgs e)
+        {
+            this.Cursor = new Cursor("C:\\Users\\gorilla\\Desktop\\NikitaNOT DELETE\\visualStudioNikita\\GoodEating\\Resources\\hand_curso.ico");
         }
     }
 }

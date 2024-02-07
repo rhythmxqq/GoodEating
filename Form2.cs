@@ -109,5 +109,15 @@ namespace GoodEating
             else
                 MessageBox.Show("Ваш пароль не совпадает");
         }
+
+        private void Form2_MouseMove(object sender, MouseEventArgs e)
+        {
+            this.Cursor = new Cursor("C:\\Users\\gorilla\\Desktop\\NikitaNOT DELETE\\visualStudioNikita\\GoodEating\\Resources\\busybutclickable_100191.ico");
+        }
+
+        private void buttonEnterReg_MouseMove(object sender, MouseEventArgs e)
+        {
+            this.Cursor = new Cursor("C:\\Users\\gorilla\\Desktop\\NikitaNOT DELETE\\visualStudioNikita\\GoodEating\\Resources\\hand_curso.ico");
+        }
     }
 }

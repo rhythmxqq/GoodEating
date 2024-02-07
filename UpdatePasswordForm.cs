@@ -48,5 +48,15 @@ namespace GoodEating
                 command.ExecuteNonQuery();
             }
         }
+
+        private void UpdatePasswordForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            this.Cursor = new Cursor("C:\\Users\\gorilla\\Desktop\\NikitaNOT DELETE\\visualStudioNikita\\GoodEating\\Resources\\busybutclickable_100191.ico");
+        }
+
+        private void changeButton_MouseMove(object sender, MouseEventArgs e)
+        {
+            this.Cursor = new Cursor("C:\\Users\\gorilla\\Desktop\\NikitaNOT DELETE\\visualStudioNikita\\GoodEating\\Resources\\hand_curso.ico");
+        }
     }
 }

@@ -271,6 +271,25 @@ namespace GoodEating
             carbohydratesCount.Text = $"{totalCarbs}г";
         }
 
+        private void mainFormMb_MouseMove(object sender, MouseEventArgs e)
+        {
+            this.Cursor = new Cursor("C:\\Users\\gorilla\\Desktop\\NikitaNOT DELETE\\visualStudioNikita\\GoodEating\\Resources\\busybutclickable_100191.ico");
+        }
+
+        private void reloadProductButton_Click(object sender, EventArgs e)
+        {
+            LoadProductsAndDistribute();
+        }
+
+        private void profileButton_MouseMove(object sender, MouseEventArgs e)
+        {
+            this.Cursor = new Cursor("C:\\Users\\gorilla\\Desktop\\NikitaNOT DELETE\\visualStudioNikita\\GoodEating\\Resources\\hand_curso.ico");
+        }
+
+        private void reloadProductButton_MouseMove(object sender, MouseEventArgs e)
+        {
+            this.Cursor = new Cursor("C:\\Users\\gorilla\\Desktop\\NikitaNOT DELETE\\visualStudioNikita\\GoodEating\\Resources\\hand_curso.ico");
+        }
     }
 }
 
