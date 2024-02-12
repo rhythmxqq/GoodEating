@@ -290,6 +290,11 @@ namespace GoodEating
         {
             this.Cursor = new Cursor("C:\\Users\\gorilla\\Desktop\\NikitaNOT DELETE\\visualStudioNikita\\GoodEating\\Resources\\hand_curso.ico");
         }
+
+        private void buttonText_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Правильное питание важно для поддержания здоровья, улучшения самочувствия и достижения долголетия. Оно помогает контролировать вес, улучшает работу сердца и снижает риск развития многих заболеваний. Начните заботиться о своем питании сегодня!", "Почему важно правильно питаться", MessageBoxButtons.OK);
+        }
     }
 }
 

@@ -50,7 +50,7 @@ namespace GoodEating
                     formMb.ShowDialog();
                 }
             else
-                MessageBox.Show("не работает, давай по новой");
+                MessageBox.Show("Данные введены некорректно");
 
         }
 

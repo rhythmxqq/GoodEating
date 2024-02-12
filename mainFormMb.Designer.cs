@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -40,6 +40,7 @@
             this.dataGridViewProductDay = new System.Windows.Forms.DataGridView();
             this.profileButton = new System.Windows.Forms.Button();
             this.reloadProductButton = new System.Windows.Forms.Button();
+            this.buttonText = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProductDay)).BeginInit();
             this.SuspendLayout();
             // 
@@ -145,8 +146,8 @@
             // 
             // dataGridViewProductDay
             // 
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.dataGridViewProductDay.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dataGridViewProductDay.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewProductDay.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.dataGridViewProductDay.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dataGridViewProductDay.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -185,12 +186,27 @@
             this.reloadProductButton.Click += new System.EventHandler(this.reloadProductButton_Click);
             this.reloadProductButton.MouseMove += new System.Windows.Forms.MouseEventHandler(this.reloadProductButton_MouseMove);
             // 
+            // buttonText
+            // 
+            this.buttonText.BackColor = System.Drawing.Color.Transparent;
+            this.buttonText.FlatAppearance.BorderSize = 0;
+            this.buttonText.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonText.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonText.Location = new System.Drawing.Point(547, 321);
+            this.buttonText.Name = "buttonText";
+            this.buttonText.Size = new System.Drawing.Size(36, 36);
+            this.buttonText.TabIndex = 14;
+            this.buttonText.Text = "?";
+            this.buttonText.UseVisualStyleBackColor = false;
+            this.buttonText.Click += new System.EventHandler(this.buttonText_Click);
+            // 
             // mainFormMb
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::GoodEating.Properties.Resources.Screenshot_92;
             this.ClientSize = new System.Drawing.Size(595, 369);
+            this.Controls.Add(this.buttonText);
             this.Controls.Add(this.reloadProductButton);
             this.Controls.Add(this.profileButton);
             this.Controls.Add(this.dataGridViewProductDay);
@@ -225,5 +241,6 @@
         private System.Windows.Forms.DataGridView dataGridViewProductDay;
         private System.Windows.Forms.Button profileButton;
         private System.Windows.Forms.Button reloadProductButton;
+        private System.Windows.Forms.Button buttonText;
     }
 }
