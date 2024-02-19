@@ -14,6 +14,7 @@ namespace GoodEating
     public partial class mainFormMb : Form
     {
         private int _userId = 0;
+        int productId = 0;
         public mainFormMb(int userId)
         {
             _userId = userId;
@@ -187,47 +188,47 @@ namespace GoodEating
 
 
         private Dictionary<string, List<(int productId, string name, float calories, float protein, float fats, float carbs)>> DistributeProducts(List<(int productId, string name, float calories, float protein, float fats, float carbs)> products, float totalCalories)
-{
-    float breakfastCalories = totalCalories * 0.25f;
-    float lunchCalories = totalCalories * 0.35f;
-    float snackCalories = totalCalories * 0.15f;
-    float dinnerCalories = totalCalories * 0.25f;
+        {
+            float breakfastCalories = totalCalories * 0.25f;
+            float lunchCalories = totalCalories * 0.35f;
+            float snackCalories = totalCalories * 0.15f;
+            float dinnerCalories = totalCalories * 0.25f;
 
-    var mealProducts = new Dictionary<string, List<(int productId, string name, float calories, float protein, float fats, float carbs)>> {
+            var mealProducts = new Dictionary<string, List<(int productId, string name, float calories, float protein, float fats, float carbs)>> {
         {"Завтрак", new List<(int productId, string name, float calories, float protein, float fats, float carbs)>()},
         {"Обед", new List<(int productId, string name, float calories, float protein, float fats, float carbs)>()},
         {"Полдник", new List<(int productId, string name, float calories, float protein, float fats, float carbs)>()},
         {"Ужин", new List<(int productId, string name, float calories, float protein, float fats, float carbs)>()}
     };
 
-    foreach (var product in products)
-    {
-        // Пример распределения продуктов по приемам пищи, исходя из калорийности
-        if (breakfastCalories >= product.calories)
-        {
-            mealProducts["Завтрак"].Add(product);
-            breakfastCalories -= product.calories;
-        }
-        else if (lunchCalories >= product.calories)
-        {
-            mealProducts["Обед"].Add(product);
-            lunchCalories -= product.calories;
-        }
-        else if (snackCalories >= product.calories)
-        {
-            mealProducts["Полдник"].Add(product);
-            snackCalories -= product.calories;
-        }
-        else if (dinnerCalories >= product.calories)
-        {
-            mealProducts["Ужин"].Add(product);
-            dinnerCalories -= product.calories;
-        }
-        // Если продукт не подходит ни в одну категорию, можно добавить исключения 
-    }
+            foreach (var product in products)
+            {
+                // Пример распределения продуктов по приемам пищи, исходя из калорийности
+                if (breakfastCalories >= product.calories)
+                {
+                    mealProducts["Завтрак"].Add(product);
+                    breakfastCalories -= product.calories;
+                }
+                else if (lunchCalories >= product.calories)
+                {
+                    mealProducts["Обед"].Add(product);
+                    lunchCalories -= product.calories;
+                }
+                else if (snackCalories >= product.calories)
+                {
+                    mealProducts["Полдник"].Add(product);
+                    snackCalories -= product.calories;
+                }
+                else if (dinnerCalories >= product.calories)
+                {
+                    mealProducts["Ужин"].Add(product);
+                    dinnerCalories -= product.calories;
+                }
+                // Если продукт не подходит ни в одну категорию, можно добавить исключения 
+            }
 
-    return mealProducts;
-   }
+            return mealProducts;
+        }
 
 
         private void DisplayProductsInDataGridView(Dictionary<string, List<(int productId, string name, float calories, float protein, float fats, float carbs)>> mealProducts)
@@ -294,6 +295,198 @@ namespace GoodEating
         private void buttonText_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Правильное питание важно для поддержания здоровья, улучшения самочувствия и достижения долголетия. Оно помогает контролировать вес, улучшает работу сердца и снижает риск развития многих заболеваний. Начните заботиться о своем питании сегодня!", "Почему важно правильно питаться", MessageBoxButtons.OK);
+        }
+       
+        private string ProductClicked(int productId)
+        {
+            Db db = new Db();
+            using (SqlConnection connection = db.getConnection())
+            {
+                connection.Open();
+                string query = "SELECT cookingTime, compound, textRecept, proteins, fats, carbohydrates, callories_content " +
+                               "FROM receptTable INNER JOIN productTable ON receptTable.id_Product = productTable.id_product " +
+                               "WHERE productTable.id_product = @productId AND receptIsCorrect = 1";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@productId", productId);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            string cookingTime = reader["cookingTime"].ToString();
+                            string compound = reader["compound"].ToString();
+                            string textRecept = reader["textRecept"].ToString();
+                            string proteins = reader["proteins"].ToString();
+                            string fats = reader["fats"].ToString();
+                            string carbohydrates = reader["carbohydrates"].ToString();
+                            string calloriesContent = reader["callories_content"].ToString();
+
+                            string message = $"Время готовки: {cookingTime}\n\n" +
+                                             $"Состав продукта: {compound}\n\n" +
+                                             $"Описание приготовления: {textRecept}\n\n" +
+                                             $"Содержание калорий: {calloriesContent}\n" +
+                                             $"Белки: {proteins}\n" +
+                                             $"Жиры: {fats}\n" +
+                                             $"Углеводы: {carbohydrates}";
+
+                            return message;
+                        }
+                        else
+                        {
+                            return "Рецепт не найден или некорректный";
+                        }
+                    }
+                }
+            }
+        }
+            private int FindProductIdByName(string productName)
+            {
+                int productId = -1; // Инициализируем productId значением, которое не может быть id продукта
+
+                Db db = new Db();
+                using (SqlConnection connection = db.getConnection())
+                {
+                    connection.Open();
+                    string query = "SELECT id_product FROM productTable WHERE name_product = @productName";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@productName", productName);
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        if (reader.Read())
+                        {
+                            productId = reader.GetInt32(0); // Получаем id продукта из первого столбца
+                        }
+                        reader.Close();
+                    }
+                }
+
+                return productId;
+            }
+ 
+        private string ExtractProductName(string productString)
+        {
+            int index = productString.IndexOf('(');
+            if (index != -1)
+            {
+                return productString.Substring(0, index).Trim();
+            }
+            return productString; // Возвращаем всю строку, если символ "(" не найден
+        }
+        private void OpenRecipeButton_Click(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                // Получаем название продукта из ячейки
+                string productName = ExtractProductName(dataGridViewProductDay.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+                int productId = FindProductIdByName(productName);
+
+                // Здесь должен быть код для отображения информации о рецепте в MessageBox
+                MessageBox.Show($"Открыть рецепт для продукта: {ProductClicked(productId)}");
+            }
+        }
+
+        private void dataGridViewProductDay_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0 && dataGridViewProductDay.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
+            {
+                string productName = ExtractProductName(dataGridViewProductDay.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+
+                // Проверка наличия рецепта для продукта
+                bool hasRecipe = CheckRecipeExistence(productName);
+
+                if (hasRecipe)
+                {
+                    // Показываем кнопку
+                    button2.Visible = true;
+                }
+                else
+                {
+                    // Скрываем кнопку
+                    button2.Visible = false;
+                }
+
+                // Заполнение labelCompound информацией о составе продукта
+                string compoundInfo = GetCompoundInfo(productName);
+                labelCompound.Text = compoundInfo;
+            }
+        }
+
+        private bool CheckRecipeExistence(string productName)
+        {
+            int productId = FindProductIdByName(productName);
+            bool hasRecipe = false;
+            Db db = new Db();
+            using (SqlConnection connection = db.getConnection())
+            {
+                connection.Open();
+                string query = "SELECT COUNT(*) FROM receptTable WHERE id_Product = @productName AND receptIsCorrect = 1";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@productName", productId);
+                    int count = (int)command.ExecuteScalar();
+                    hasRecipe = count > 0;
+                }
+            }
+            return hasRecipe;
+        }
+
+        private string GetCompoundInfo(string productName)
+        {
+            int productId = FindProductIdByName(productName);
+            string compoundInfo = "";
+            Db db = new Db();
+            using (SqlConnection connection = db.getConnection())
+            {
+                connection.Open();
+                string query = "SELECT proteins, fats, carbohydrates, callories_content FROM productTable WHERE id_product = @productName";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@productName", productId);
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        float callories_content = reader["callories_content"] != DBNull.Value ? Convert.ToSingle(reader["callories_content"]) : 0f;
+                        float proteins = reader["proteins"] != DBNull.Value ? Convert.ToSingle(reader["proteins"]) : 0f;
+                        float fats = reader["fats"] != DBNull.Value ? Convert.ToSingle(reader["fats"]) : 0f;
+                        float carbohydrates = reader["carbohydrates"] != DBNull.Value ? Convert.ToSingle(reader["carbohydrates"]) : 0f;
+
+                        compoundInfo = $"Белки: {proteins}г, Жиры: {fats}г, Углеводы: {carbohydrates}г, Калории: {callories_content}ккал";
+                    }
+                    reader.Close();
+                }
+            }
+            return compoundInfo;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewProductDay.SelectedCells.Count > 0)
+            {
+                int selectedRowIndex = dataGridViewProductDay.SelectedCells[0].RowIndex;
+                int selectedColumnIndex = dataGridViewProductDay.SelectedCells[0].ColumnIndex;
+
+                if (selectedRowIndex >= 0 && selectedColumnIndex >= 0)
+                {
+                    string productName = ExtractProductName(dataGridViewProductDay.Rows[selectedRowIndex].Cells[selectedColumnIndex].Value.ToString());
+                    int productId = FindProductIdByName(productName);
+                    MessageBox.Show(ProductClicked(productId), "Рецепт " + productName);
+                   
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выделите ячейку с продуктом в таблице", "Ошибка");
+            }
+        }
+
+        private void buttonList_Click(object sender, EventArgs e)
+        {
+            allListProduct form4 = new allListProduct();
+            form4.ShowDialog();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace GoodEating
+﻿using System;
+
+namespace GoodEating
 {
     partial class mainFormMb
     {
@@ -28,7 +30,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -41,6 +43,9 @@
             this.profileButton = new System.Windows.Forms.Button();
             this.reloadProductButton = new System.Windows.Forms.Button();
             this.buttonText = new System.Windows.Forms.Button();
+            this.buttonList = new System.Windows.Forms.Button();
+            this.labelCompound = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewProductDay)).BeginInit();
             this.SuspendLayout();
             // 
@@ -146,8 +151,8 @@
             // 
             // dataGridViewProductDay
             // 
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.dataGridViewProductDay.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dataGridViewProductDay.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridViewProductDay.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.dataGridViewProductDay.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dataGridViewProductDay.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -157,6 +162,7 @@
             this.dataGridViewProductDay.ReadOnly = true;
             this.dataGridViewProductDay.Size = new System.Drawing.Size(487, 101);
             this.dataGridViewProductDay.TabIndex = 11;
+            this.dataGridViewProductDay.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewProductDay_CellClick);
             // 
             // profileButton
             // 
@@ -200,12 +206,54 @@
             this.buttonText.UseVisualStyleBackColor = false;
             this.buttonText.Click += new System.EventHandler(this.buttonText_Click);
             // 
+            // buttonList
+            // 
+            this.buttonList.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.buttonList.FlatAppearance.BorderSize = 0;
+            this.buttonList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonList.Location = new System.Drawing.Point(12, 329);
+            this.buttonList.Name = "buttonList";
+            this.buttonList.Size = new System.Drawing.Size(152, 23);
+            this.buttonList.TabIndex = 15;
+            this.buttonList.Text = "Список продуктов";
+            this.buttonList.UseVisualStyleBackColor = false;
+            this.buttonList.Click += new System.EventHandler(this.buttonList_Click);
+            // 
+            // labelCompound
+            // 
+            this.labelCompound.AutoSize = true;
+            this.labelCompound.BackColor = System.Drawing.Color.Transparent;
+            this.labelCompound.ForeColor = System.Drawing.Color.White;
+            this.labelCompound.Location = new System.Drawing.Point(49, 283);
+            this.labelCompound.Name = "labelCompound";
+            this.labelCompound.Size = new System.Drawing.Size(10, 13);
+            this.labelCompound.TabIndex = 16;
+            this.labelCompound.Text = ".";
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.button2.Location = new System.Drawing.Point(464, 283);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 17;
+            this.button2.Text = "Рецепт";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Visible = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // mainFormMb
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::GoodEating.Properties.Resources.Screenshot_92;
             this.ClientSize = new System.Drawing.Size(595, 369);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.labelCompound);
+            this.Controls.Add(this.buttonList);
             this.Controls.Add(this.buttonText);
             this.Controls.Add(this.reloadProductButton);
             this.Controls.Add(this.profileButton);
@@ -228,6 +276,8 @@
 
         }
 
+ 
+
         #endregion
 
         private System.Windows.Forms.Label label1;
@@ -242,5 +292,8 @@
         private System.Windows.Forms.Button profileButton;
         private System.Windows.Forms.Button reloadProductButton;
         private System.Windows.Forms.Button buttonText;
+        private System.Windows.Forms.Button buttonList;
+        private System.Windows.Forms.Label labelCompound;
+        private System.Windows.Forms.Button button2;
     }
 }
