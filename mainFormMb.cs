@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -41,7 +42,7 @@ namespace GoodEating
             dataGridViewProductDay.Columns.Add("Ужин", "Ужин");
             dataGridViewProductDay.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             LoadProductsAndDistribute();
-
+            tgMessageAsync(CollectProductInformation(dataGridViewProductDay));
 
         }
         void CalculateAndDisplayCalorieNorm(int userId, Label calorieLabel)
@@ -431,6 +432,69 @@ namespace GoodEating
                 }
             }
             return hasRecipe;
+        }
+        async Task tgMessageAsync(string messag)
+        {
+            string botToken = "7087331796:AAGG7BQAb-08YlJ9rgF3HA7mnjD4ompULsU";
+            long chatId = 1493577013; // Замените <YourChatId> на ID вашего чата
+
+            string message = messag;
+
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.GetAsync($"https://api.telegram.org/bot{botToken}/sendMessage?chat_id={chatId}&text={message}");
+                response.EnsureSuccessStatusCode();
+            }
+        }
+        private string CollectProductInformation(DataGridView dataGridView)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            // Переменные для хранения общего количества калорий, белков, жиров и углеводов
+            float totalCalories = 0f;
+            string totalProteins = countProteins.Text, totalFats = fatsCount.Text, totalCarbs = carbohydratesCount.Text;
+
+            // Для каждой строки в DataGridView
+            foreach (DataGridViewRow row in dataGridView.Rows)
+            {
+                // Проверяем, что строка не является пустой
+                if (!row.IsNewRow)
+                {
+                    // Для каждой ячейки в строке
+                    foreach (DataGridViewCell cell in row.Cells)
+                    {
+                        // Получаем значение ячейки и разделяем его на имя продукта и его калорийность
+                        string cellValue = cell.Value.ToString();
+                        string[] parts = cellValue.Split('(');
+
+                        // Проверяем, что разделение на имя продукта и калории произошло успешно
+                        if (parts.Length == 2)
+                        {
+                            string productName = parts[0].Trim();
+                            string caloriesStr = parts[1].Replace(" ккал)", "").Trim(); // Удаляем " ккал" и лишние пробелы
+
+                            // Пытаемся преобразовать количество калорий в число
+                            if (float.TryParse(caloriesStr, out float calories))
+                            {
+                                // Добавляем информацию о продукте в строку
+                                sb.AppendLine($"Продукт: {productName}, Калории: {calories}");
+
+                                // Обновляем общее количество калорий, белков, жиров и углеводов
+                                totalCalories += calories;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Добавляем общую информацию о калориях, белках, жирах и углеводах в строку
+            sb.AppendLine($"Общее количество калорий: {totalCalories} ккал");
+            sb.AppendLine($"Общее количество белков: {totalProteins}");
+            sb.AppendLine($"Общее количество жиров: {totalFats}");
+            sb.AppendLine($"Общее количество углеводов: {totalCarbs}");
+            sb.AppendLine("Дата на момент рациона: " + DateTime.Now);
+
+            return sb.ToString();
         }
 
         private string GetCompoundInfo(string productName)
