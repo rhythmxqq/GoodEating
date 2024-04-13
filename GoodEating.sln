@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodEating", "GoodEating.csproj", "{BE14EEC9-6C1A-4F4F-A554-2C190042F1DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodEating.Test", "..\USqlCSharpUdoUnitTestProject3\GoodEating.Test.csproj", "{44B50152-C974-4988-8874-2C5EB9F00CED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{BE14EEC9-6C1A-4F4F-A554-2C190042F1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE14EEC9-6C1A-4F4F-A554-2C190042F1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE14EEC9-6C1A-4F4F-A554-2C190042F1DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44B50152-C974-4988-8874-2C5EB9F00CED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44B50152-C974-4988-8874-2C5EB9F00CED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44B50152-C974-4988-8874-2C5EB9F00CED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44B50152-C974-4988-8874-2C5EB9F00CED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
