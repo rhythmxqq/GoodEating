@@ -8,8 +8,10 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace GoodEating
 {
@@ -25,11 +27,24 @@ namespace GoodEating
 
         private void Form2_Load(object sender, EventArgs e)
         {
-
         }
 
         private void buttonEnterReg_Click(object sender, EventArgs e)
         {
+            string input = weightTextBox.Text;
+            string input1 = hightTextBox.Text;
+
+            // Создание регулярного выражения
+            Regex regex = new Regex(@"[a-zA-Zа-яА-Я]");
+
+            // Проверка: возвращает true, если в строке есть хотя бы одна буква
+            bool containsLetter = regex.IsMatch(input);
+            bool containsLetter1 = regex.IsMatch(input1);
+
+            if (containsLetter|| containsLetter1)
+            {
+                MessageBox.Show("данные введены неправильно");
+            }
             if (passwordtextBox.Text.Equals(passwordCheckTextBox.Text))
             {
                 Db db = new Db();        
